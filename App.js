@@ -6,6 +6,7 @@ import {Register} from './src/components/Register';
 import {Profile} from './src/components/Profile';
 import ProductList from './src/components/ProductList';
 import AddBasket from './src/components/AddBasket';
+import AddProduct from './src/components/ProductListOption/AddProduct';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -44,6 +45,7 @@ const HomeStackScreen = () => (
     <HomeStack.Screen name="Home" component={Home} />
     <HomeStack.Screen name="AddBasket" component={AddBasket} />
     <HomeStack.Screen name="ProductList" component={ProductList} />
+    <HomeStack.Screen name="AddProduct" component={AddProduct} />
   </HomeStack.Navigator>
 );
 

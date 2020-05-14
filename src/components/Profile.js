@@ -10,10 +10,6 @@ export const Profile = () => {
   return (
     <View style={styles.container}>
       <Icon name="account-circle" color="#ffffff" size={150} />
-      {/* <TouchableOpacity style={styles.signOutBtn} onPress={() => signOut()}>
-        <Text style={styles.white}>Sign out</Text>
-      </TouchableOpacity> */}
-
       <Button
         style={styles.loginBtn}
         mode="contained"

@@ -40,7 +40,7 @@ export const Login = ({ navigation }) => {
 
       <Button style={styles.loginBtn} mode="contained" onPress={() => signIn({email, password})} title="Login" >Login</Button>
 
-      <View style={styles.btnContainer}> 
+      <View style={styles.btnContainer}>
       <TouchableOpacity style={styles.userBtn1} onPress={() => navigation.navigate('Register')}>
           <Text style={styles.text}>Create Account</Text>
         </TouchableOpacity>
