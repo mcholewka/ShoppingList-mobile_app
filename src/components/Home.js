@@ -3,16 +3,13 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
   Alert,
   AsyncStorage,
   ActivityIndicator,
   FlatList,
 } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {withNavigation} from 'react-navigation';
+import {FAB} from 'react-native-paper';
 
 class Home extends Component {
   constructor(props) {
@@ -23,31 +20,46 @@ class Home extends Component {
     };
   }
 
+  // getData = async () => {
+
+  // }
+
   componentWillMount = async () => {
-    var token = await AsyncStorage.getItem('token');
-    console.log(token);
-    fetch('http://192.168.0.105:3000/api/buckets', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'auth-token': token,
-      },
-    })
-      .then(response => response.json())
-      .then(json => {
-        this.setState({data: json.buckets});
+    const {navigation} = this.props;
+    await navigation.addListener('focus', async () => {
+      var token = await AsyncStorage.getItem('token');
+      console.log(token);
+      fetch('http://192.168.0.105:3000/api/buckets', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'auth-token': token,
+        },
       })
-      .catch(error => console.error(error))
-      .finally(() => {
-        this.setState({isLoading: false});
-        console.log(this.state.data.buckets[0].bucketName);
-      });
+        .then(response => response.json())
+        .then(json => {
+          this.setState({data: json.buckets});
+        })
+        .catch(error => console.error(error))
+        .finally(() => {
+          this.setState({isLoading: false});
+          console.log(this.state.data.buckets[0].bucketName);
+        });
+    });
   };
 
-  handleNavigate = user => {
+  // async componentWillMount() {
+  //   await console.log('123');
+  //   const {navigation} = this.props;
+  //   navigation.addListener('focus', () => {
+  //     console.log('456');
+  //   });
+  // }
+
+  handleNavigate = (user, name) => {
     const {navigation} = this.props;
-    navigation.navigate('ProductList', {user});
+    navigation.navigate('ProductList', {user, name});
   };
 
   render() {
@@ -66,13 +78,22 @@ class Home extends Component {
               <TouchableOpacity
                 style={styles.touchable}
                 onPress={() => {
-                  this.handleNavigate(item._id);
+                  this.handleNavigate(item._id, item.bucketName);
                 }}>
                 <Text style={styles.white}>{item.bucketName}</Text>
               </TouchableOpacity>
             )}
           />
         )}
+        <FAB
+          style={styles.fab}
+          icon="plus"
+          onPress={() => {
+            console.log('Pressed');
+            const {navigation} = this.props;
+            navigation.navigate('AddBasket');
+          }}
+        />
       </View>
     );
   }
@@ -130,6 +151,12 @@ const styles = StyleSheet.create({
   white: {
     color: '#ffffff',
     fontWeight: 'bold',
-    fontSize: 20
-  }
+    fontSize: 20,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 10,
+    bottom: 10,
+  },
 });

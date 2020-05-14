@@ -5,6 +5,7 @@ import Home from './src/components/Home';
 import {Register} from './src/components/Register';
 import {Profile} from './src/components/Profile';
 import ProductList from './src/components/ProductList';
+import AddBasket from './src/components/AddBasket';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -32,8 +33,14 @@ const Tabs = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 
 const HomeStackScreen = () => (
-  <HomeStack.Navigator>
+  <HomeStack.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: '#275FC7',
+      },
+    }}>
     <HomeStack.Screen name="Home" component={Home} />
+    <HomeStack.Screen name="AddBasket" component={AddBasket} />
     <HomeStack.Screen name="ProductList" component={ProductList} />
   </HomeStack.Navigator>
 );

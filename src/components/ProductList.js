@@ -11,6 +11,8 @@ import {List, Checkbox} from 'react-native-paper';
 
 export default class ProductList extends Component {
   id = {basketId: this.props.route.params.user};
+  basketName = {basketName: this.props.route.params.name};
+
   productId = '';
   constructor(props) {
     super(props);
@@ -21,6 +23,7 @@ export default class ProductList extends Component {
       checkboxes: [],
     };
   }
+
   componentWillMount = async () => {
     const {basketId} = this.id;
     console.log(basketId);
@@ -47,18 +50,14 @@ export default class ProductList extends Component {
   };
 
   setChecked = async isBool => {
-    console.log('elo elo ');
     const {basketId} = this.id;
     const {productId} = this.productId;
-    console.log(isBool);
     var token = await AsyncStorage.getItem('token');
-    console.log(this.productId);
     const url =
       'http://192.168.0.105:3000/api/buckets/' +
       basketId +
       '/products/' +
       this.productId;
-      console.log(isBool);
     fetch(url, {
       method: 'PATCH',
       headers: {
@@ -73,7 +72,6 @@ export default class ProductList extends Component {
       .then(response => response.json())
       .then(json => {
         this.setState({data: json.products});
-        console.log(json);
         this.componentWillMount();
       })
       .catch(error => console.error(error))
@@ -85,11 +83,11 @@ export default class ProductList extends Component {
   render() {
     const {data} = this.state;
     const {basketId} = this.id;
+    const {basketName} = this.basketName;
     const {checked} = this.state;
     return (
       <View>
-        <Text>ELO JESTES TU</Text>
-        <Text>{basketId}</Text>
+        <Text style={styles.basketName}>{basketName}</Text>
         <FlatList
           data={data}
           keyExtractor={({_id}, index) => _id}
@@ -111,11 +109,7 @@ export default class ProductList extends Component {
                 status={item.isBought ? 'checked' : 'unchecked'}
                 onPress={() => {
                   this.productId = item._id;
-                  console.log(this.productId);
-                  console.log('wszedłem');
-                  console.log(item.isBought);
                   this.setChecked(item.isBought);
-                  //item.isBought = true;
                 }}
               />
             </View>
@@ -138,5 +132,10 @@ const styles = StyleSheet.create({
   },
   checkbox: {
     height: 120,
+  },
+  basketName: {
+    textAlign: 'center',
+    paddingTop: 30,
+    fontSize: 25,
   },
 });
