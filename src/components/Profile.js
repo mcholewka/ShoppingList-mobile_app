@@ -3,14 +3,24 @@ import {AuthContext} from '../../context';
 import {View, Text, StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Icon} from 'react-native-elements';
+import {Button} from 'react-native-paper';
+
 export const Profile = () => {
   const {signOut} = React.useContext(AuthContext);
   return (
     <View style={styles.container}>
       <Icon name="account-circle" color="#ffffff" size={150} />
-      <TouchableOpacity style={styles.signOutBtn} onPress={() => signOut()}>
+      {/* <TouchableOpacity style={styles.signOutBtn} onPress={() => signOut()}>
         <Text style={styles.white}>Sign out</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+
+      <Button
+        style={styles.loginBtn}
+        mode="contained"
+        onPress={() => signOut()}
+        title="Login">
+        Sign out
+      </Button>
     </View>
   );
 };
@@ -18,7 +28,6 @@ export const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    backgroundColor: '#2B2B2B',
     flex: 1,
     width: '100%',
     paddingTop: 30,
@@ -36,5 +45,13 @@ const styles = StyleSheet.create({
   white: {
     color: '#ffffff',
     fontSize: 25,
+  },
+  loginBtn: {
+    width: '85%',
+    height: 60,
+    justifyContent: 'center',
+    borderRadius: 40,
+    position: 'absolute',
+    bottom: 30,
   },
 });

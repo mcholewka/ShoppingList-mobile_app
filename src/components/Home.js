@@ -4,11 +4,11 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Alert,
   AsyncStorage,
   ActivityIndicator,
   FlatList,
 } from 'react-native';
+import {Divider} from 'react-native-paper';
 import {FAB} from 'react-native-paper';
 
 class Home extends Component {
@@ -19,10 +19,6 @@ class Home extends Component {
       isLoading: true,
     };
   }
-
-  // getData = async () => {
-
-  // }
 
   componentWillMount = async () => {
     const {navigation} = this.props;
@@ -44,18 +40,9 @@ class Home extends Component {
         .catch(error => console.error(error))
         .finally(() => {
           this.setState({isLoading: false});
-          console.log(this.state.data.buckets[0].bucketName);
         });
     });
   };
-
-  // async componentWillMount() {
-  //   await console.log('123');
-  //   const {navigation} = this.props;
-  //   navigation.addListener('focus', () => {
-  //     console.log('456');
-  //   });
-  // }
 
   handleNavigate = (user, name) => {
     const {navigation} = this.props;
@@ -67,7 +54,8 @@ class Home extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.logo}> Your shopping buckets: </Text>
+        <Text style={styles.logo}> Your shopping baskets </Text>
+        <Divider style={styles.divider} />
         {isLoading ? (
           <ActivityIndicator />
         ) : (
@@ -105,12 +93,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#2B2B2B',
   },
   logo: {
     fontSize: 18,
     paddingBottom: 30,
-    color: '#ffffff',
+    marginTop: 30,
+    color: '#111111',
   },
   input: {
     width: '90%',
@@ -138,18 +126,19 @@ const styles = StyleSheet.create({
     height: 60,
     borderColor: '#ffffff',
     borderWidth: 2,
-    marginTop: 5,
-    borderRadius: 8,
+    marginTop: 15,
+    borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
-    color: '#ffffff',
+    color: '#111111',
     marginHorizontal: 'auto',
+    backgroundColor: '#ffffff',
   },
   view: {
     alignItems: 'center',
   },
   white: {
-    color: '#ffffff',
+    color: '#111111',
     fontWeight: 'bold',
     fontSize: 20,
   },
@@ -158,5 +147,10 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 10,
     bottom: 10,
+  },
+  divider: {
+    color: '#111111',
+    backgroundColor: '#111111',
+    width: 2,
   },
 });

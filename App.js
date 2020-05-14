@@ -11,6 +11,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import {AuthContext} from './context';
+import {Icon} from 'react-native-elements';
 
 const AuthStack = createStackNavigator();
 
@@ -36,8 +37,9 @@ const HomeStackScreen = () => (
   <HomeStack.Navigator
     screenOptions={{
       headerStyle: {
-        backgroundColor: '#275FC7',
+        backgroundColor: '#2B2B2B',
       },
+      headerTintColor: '#fff',
     }}>
     <HomeStack.Screen name="Home" component={Home} />
     <HomeStack.Screen name="AddBasket" component={AddBasket} />
@@ -47,15 +49,44 @@ const HomeStackScreen = () => (
 
 const ProfileStack = createStackNavigator();
 const ProfileStackScreen = () => (
-  <ProfileStack.Navigator>
+  <ProfileStack.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: '#2B2B2B',
+      },
+      headerTintColor: '#fff',
+    }}>
     <ProfileStack.Screen name="Profile" component={Profile} />
   </ProfileStack.Navigator>
 );
 
 const TabsScreen = () => (
-  <Tabs.Navigator>
-    <Tabs.Screen name="Home" component={HomeStackScreen} />
-    <Tabs.Screen name="Profile" component={ProfileStackScreen} />
+  <Tabs.Navigator
+    tabBarOptions={{
+      activeTintColor: '#2FE6B1',
+      inactiveTintColor: 'gray',
+      backgroundColor: '#2B2B2B',
+    }}>
+    <Tabs.Screen
+      options={{
+        tabBarLabel: 'Home',
+        tabBarIcon: ({color, size}) => (
+          <Icon name="home" color={color} size={size} />
+        ),
+      }}
+      name="Home"
+      component={HomeStackScreen}
+    />
+    <Tabs.Screen
+      options={{
+        tabBarLabel: 'User',
+        tabBarIcon: ({color, size}) => (
+          <Icon name="person" color={color} size={size} />
+        ),
+      }}
+      name="Profile"
+      component={ProfileStackScreen}
+    />
   </Tabs.Navigator>
 );
 
