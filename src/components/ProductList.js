@@ -6,8 +6,11 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
+  Alert,
+  Button,
 } from 'react-native';
 import {List, Checkbox, FAB} from 'react-native-paper';
+import {Icon} from 'react-native-elements';
 
 export default class ProductList extends Component {
   id = {basketId: this.props.route.params.user};
@@ -22,9 +25,20 @@ export default class ProductList extends Component {
       checked: false,
       checkboxes: [],
     };
+    this.props.navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          style={styles.touchable}
+          onPress={() => {
+            this.navigateToProductListSettings();
+          }}>
+          <Icon name="settings" color="#ffffff" />
+        </TouchableOpacity>
+      ),
+    });
   }
 
-  componentWillMount = async () => {
+  componentDidMount = async () => {
     const {navigation} = this.props;
     await navigation.addListener('focus', async () => {
       const {basketId} = this.id;
@@ -59,6 +73,18 @@ export default class ProductList extends Component {
     navigation.navigate('AddProduct', {basketId});
   };
 
+  navigateToAddUserToBasket = () => {
+    const {navigation} = this.props;
+    const {basketId} = this.id;
+    navigation.navigate('AddUserToBasket', {basketId});
+  };
+
+  navigateToProductListSettings = () => {
+    const {navigation} = this.props;
+    const {basketId} = this.id;
+    navigation.navigate('ProductListSettings', {basketId});
+  }
+
   setChecked = async isBool => {
     const {basketId} = this.id;
     const {productId} = this.productId;
@@ -82,7 +108,7 @@ export default class ProductList extends Component {
       .then(response => response.json())
       .then(json => {
         this.setState({data: json.products});
-        this.componentWillMount();
+        this.componentDidMount();
       })
       .catch(error => console.error(error))
       .finally(() => {
@@ -130,18 +156,13 @@ export default class ProductList extends Component {
           style={styles.fab}
           icon="account-plus"
           onPress={() => {
-            console.log('Pressed');
-            const {navigation} = this.props;
-            navigation.navigate('AddBasket');
+            this.navigateToAddUserToBasket();
           }}
         />
         <FAB
           style={styles.fab2}
           icon="cart-plus"
           onPress={() => {
-            // console.log('Pressed');
-            // const {navigation} = this.props;
-            // navigation.navigate('AddProduct');
             this.navigateToAddProduct();
           }}
         />
@@ -191,4 +212,9 @@ const styles = StyleSheet.create({
     right: 90,
     bottom: 10,
   },
+  touchable: {
+    width: 50,
+    height: 50,
+    paddingTop: 12,
+  }
 });

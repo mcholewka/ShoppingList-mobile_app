@@ -20,7 +20,7 @@ class Home extends Component {
     };
   }
 
-  componentWillMount = async () => {
+  componentDidMount = async () => {
     const {navigation} = this.props;
     await navigation.addListener('focus', async () => {
       var token = await AsyncStorage.getItem('token');

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {AuthContext} from '../../context';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, AsyncStorage} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Icon} from 'react-native-elements';
 import {Button} from 'react-native-paper';

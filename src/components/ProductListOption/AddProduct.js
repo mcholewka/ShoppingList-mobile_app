@@ -69,6 +69,7 @@ class AddProduct extends Component {
           <TextInput
             style={styles.inputText}
             placeholder="Quantity"
+            keyboardType="numeric"
             onChangeText={quantity => this.setState({quantity})}
             value={this.state.quantity}
           />

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {AsyncStorage, Alert} from 'react-native';
+import {AsyncStorage, Alert, Button, View, StyleSheet} from 'react-native';
 import {Login, Splash} from './src/components/Login';
 import Home from './src/components/Home';
 import {Register} from './src/components/Register';
@@ -7,12 +7,15 @@ import {Profile} from './src/components/Profile';
 import ProductList from './src/components/ProductList';
 import AddBasket from './src/components/AddBasket';
 import AddProduct from './src/components/ProductListOption/AddProduct';
+import AddUserToBasket from './src/components/ProductListOption/AddUserToBasket';
+import ProductListSettings from './src/components/ProductListOption/ProductListSettings';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import {AuthContext} from './context';
 import {Icon} from 'react-native-elements';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const AuthStack = createStackNavigator();
 
@@ -46,6 +49,11 @@ const HomeStackScreen = () => (
     <HomeStack.Screen name="AddBasket" component={AddBasket} />
     <HomeStack.Screen name="ProductList" component={ProductList} />
     <HomeStack.Screen name="AddProduct" component={AddProduct} />
+    <HomeStack.Screen name="AddUserToBasket" component={AddUserToBasket} />
+    <HomeStack.Screen
+      name="ProductListSettings"
+      component={ProductListSettings}
+    />
   </HomeStack.Navigator>
 );
 
@@ -140,6 +148,7 @@ export default () => {
               Alert.alert(res.message);
             } else {
               AsyncStorage.setItem('token', res.token);
+              console.log(res.token);
               setUserToken(res.token);
             }
           });
@@ -186,3 +195,9 @@ export default () => {
     </AuthContext.Provider>
   );
 };
+
+const styles = StyleSheet.create({
+  touchable: {
+    marginRight: 10,
+  },
+});
