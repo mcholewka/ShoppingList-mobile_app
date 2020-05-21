@@ -41,30 +41,51 @@ export default class ProductList extends Component {
   componentDidMount = async () => {
     const {navigation} = this.props;
     await navigation.addListener('focus', async () => {
-      const {basketId} = this.id;
-      console.log(basketId);
-      var token = await AsyncStorage.getItem('token');
-      const url =
-        'http://192.168.0.105:3000/api/buckets/' + basketId + '/products';
-      console.log(url);
-      fetch(url, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'auth-token': token,
-        },
-      })
-        .then(response => response.json())
-        .then(json => {
-          this.setState({data: json});
-          console.log(json);
-        })
-        .catch(error => console.error(error))
-        .finally(() => {
-          this.setState({isLoading: false});
-        });
+      // const {basketId} = this.id;
+      // var token = await AsyncStorage.getItem('token');
+      // const url =
+      //   'http://192.168.0.105:3000/api/buckets/' + basketId + '/products';
+      // fetch(url, {
+      //   method: 'GET',
+      //   headers: {
+      //     Accept: 'application/json',
+      //     'Content-Type': 'application/json',
+      //     'auth-token': token,
+      //   },
+      // })
+      //   .then(response => response.json())
+      //   .then(json => {
+      //     this.setState({data: json});
+      //   })
+      //   .catch(error => console.error(error))
+      //   .finally(() => {
+      //     this.setState({isLoading: false});
+      //   });
+      this.getData();
     });
+  };
+
+  getData = async () => {
+    const {basketId} = this.id;
+    var token = await AsyncStorage.getItem('token');
+    const url =
+      'http://192.168.0.105:3000/api/buckets/' + basketId + '/products';
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'auth-token': token,
+      },
+    })
+      .then(response => response.json())
+      .then(json => {
+        this.setState({data: json});
+      })
+      .catch(error => console.error(error))
+      .finally(() => {
+        this.setState({isLoading: false});
+      });
   };
 
   navigateToAddProduct = () => {
@@ -83,7 +104,7 @@ export default class ProductList extends Component {
     const {navigation} = this.props;
     const {basketId} = this.id;
     navigation.navigate('ProductListSettings', {basketId});
-  }
+  };
 
   setChecked = async isBool => {
     const {basketId} = this.id;
@@ -94,6 +115,7 @@ export default class ProductList extends Component {
       basketId +
       '/products/' +
       this.productId;
+    console.log(url);
     fetch(url, {
       method: 'PATCH',
       headers: {
@@ -105,15 +127,76 @@ export default class ProductList extends Component {
         isBought: !isBool,
       }),
     })
-      .then(response => response.json())
-      .then(json => {
-        this.setState({data: json.products});
+      .then(response => {
+        const code = response.status;
+        const data = response.json();
+        if (code === 200) {
+          Alert.alert(
+            'All products are in the basket :)',
+            'Do you want to end this shopping list?',
+            [
+              {
+                text: 'Cancel',
+                style: 'cancel',
+              },
+              {text: 'OK', onPress: () => this.deleteBasket()},
+            ],
+          );
+        }
+        return data;
+      })
+      .then(data => {
+        this.setState({data: data.products});
         this.componentDidMount();
       })
       .catch(error => console.error(error))
       .finally(() => {
         this.setState({isLoading: false});
       });
+  };
+
+  deleteBasket = async () => {
+    const {basketId} = this.id;
+    var token = await AsyncStorage.getItem('token');
+    var url = 'http://192.168.0.105:3000/api/buckets/' + basketId;
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'auth-token': token,
+      },
+    })
+      .then(response => response.json())
+      .then(json => {
+        const {navigation} = this.props;
+        navigation.navigate('Home');
+      })
+      .catch(error => console.error(error));
+  };
+
+  deleteProduct = async () => {
+    const {basketId} = this.id;
+    const {productId} = this.productId;
+    var token = await AsyncStorage.getItem('token');
+    const url =
+      'http://192.168.0.105:3000/api/buckets/' +
+      basketId +
+      '/products/' +
+      this.productId;
+    console.log(url);
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'auth-token': token,
+      },
+    })
+      .then(response => response.json())
+      .then(json => {})
+      .catch(error => console.error(error));
+    await this.getData();
   };
 
   render() {
@@ -139,6 +222,15 @@ export default class ProductList extends Component {
                     title="Description"
                     description={item.description}
                   />
+                  <TouchableOpacity
+                    style={styles.insideBtn}
+                    title="123"
+                    onPress={() => {
+                      this.productId = item._id;
+                      this.deleteProduct();
+                    }}>
+                    <Icon name="delete" color="#ffffff" />
+                  </TouchableOpacity>
                 </List.Accordion>
               </List.Section>
               <Checkbox
@@ -216,5 +308,15 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     paddingTop: 12,
-  }
+  },
+  insideBtn: {
+    position: 'absolute',
+    width: 40,
+    height: 40,
+    borderRadius: 40,
+    backgroundColor: '#c91414',
+    right: -35,
+    bottom: 10,
+    justifyContent: 'center',
+  },
 });

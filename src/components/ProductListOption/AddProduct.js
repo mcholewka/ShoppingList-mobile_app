@@ -16,10 +16,8 @@ class AddProduct extends Component {
 
   addNewProduct = async () => {
     const {basketId} = this.basketId;
-    console.log(basketId);
     var token = await AsyncStorage.getItem('token');
     var url = 'http://192.168.0.105:3000/api/buckets/' + basketId + '/products';
-    console.log(url);
     fetch(url, {
       method: 'POST',
       headers: {
@@ -35,7 +33,6 @@ class AddProduct extends Component {
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
         const {navigation} = this.props;
         navigation.goBack();
       });

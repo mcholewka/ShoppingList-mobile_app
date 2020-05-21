@@ -46,13 +46,30 @@ const HomeStackScreen = () => (
       headerTintColor: '#fff',
     }}>
     <HomeStack.Screen name="Home" component={Home} />
-    <HomeStack.Screen name="AddBasket" component={AddBasket} />
-    <HomeStack.Screen name="ProductList" component={ProductList} />
-    <HomeStack.Screen name="AddProduct" component={AddProduct} />
-    <HomeStack.Screen name="AddUserToBasket" component={AddUserToBasket} />
+    <HomeStack.Screen
+      name="AddBasket"
+      component={AddBasket}
+      options={{title: 'Add new basket'}}
+    />
+    <HomeStack.Screen
+      name="ProductList"
+      component={ProductList}
+      options={{title: 'Product list'}}
+    />
+    <HomeStack.Screen
+      name="AddProduct"
+      component={AddProduct}
+      options={{title: 'Add new product'}}
+    />
+    <HomeStack.Screen
+      name="AddUserToBasket"
+      component={AddUserToBasket}
+      options={{title: 'Add new user to basket'}}
+    />
     <HomeStack.Screen
       name="ProductListSettings"
       component={ProductListSettings}
+      options={{title: 'Product list settings'}}
     />
   </HomeStack.Navigator>
 );
@@ -147,8 +164,8 @@ export default () => {
             if (res.token == null) {
               Alert.alert(res.message);
             } else {
-              AsyncStorage.setItem('token', res.token);
               console.log(res.token);
+              AsyncStorage.setItem('token', res.token);
               setUserToken(res.token);
             }
           });

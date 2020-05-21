@@ -25,7 +25,6 @@ class AddBasket extends Component {
     })
       .then(response => response.json())
       .then(res => {
-        console.log('added a list');
         const {navigation} = this.props;
         navigation.goBack();
       });

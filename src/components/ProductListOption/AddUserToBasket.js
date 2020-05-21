@@ -21,10 +21,8 @@ class AddProduct extends Component {
 
   addNewUser = async () => {
     const {basketId} = this.basketId;
-    console.log(basketId);
     var token = await AsyncStorage.getItem('token');
     var url = 'http://192.168.0.105:3000/api/users/basket/' + basketId;
-    console.log(url);
     fetch(url, {
       method: 'POST',
       headers: {

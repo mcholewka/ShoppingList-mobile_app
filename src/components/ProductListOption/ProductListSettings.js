@@ -4,19 +4,20 @@ import {
   Text,
   StyleSheet,
   AsyncStorage,
-  TextInput,
   ActivityIndicator,
   FlatList,
   TouchableOpacity,
   Alert,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
-import {Button} from 'react-native-paper';
+import jwtDecode from 'jwt-decode';
 
 class AddProduct extends Component {
   basketId = {basketId: this.props.route.params.basketId};
+
   constructor(props) {
     super(props);
+    this.email;
     this.state = {
       data: [],
       isLoading: true,
@@ -26,15 +27,15 @@ class AddProduct extends Component {
 
   componentDidMount = async () => {
     this.getData();
+    var token = await AsyncStorage.getItem('token');
+    this.email = jwtDecode(token).email;
+    console.log(this.email);
   };
 
   getData = async () => {
-    console.log('biere dane');
-    
     const {basketId} = this.basketId;
 
     var token = await AsyncStorage.getItem('token');
-    console.log(token);
     var url =
       'http://192.168.0.105:3000/api/users/basket/' + basketId + '/userlist';
     fetch(url, {
@@ -51,7 +52,6 @@ class AddProduct extends Component {
         this.setState({
           refresh: !this.state.refresh,
         });
-        console.log(this.state.refresh);
       })
       .catch(error => console.error(error))
       .finally(() => {
@@ -114,20 +114,24 @@ class AddProduct extends Component {
             keyExtractor={({_id}, index) => _id}
             extraData={this.state.refresh}
             style={styles.flatlist}
-            renderItem={({item}) => (
-              <View style={styles.row}>
-                <View style={styles.touchable}>
-                  <Text style={styles.white}>{item.displayName}</Text>
-                </View>
-                <TouchableOpacity
-                  style={styles.touchableRed}
-                  onPress={() => {
-                    this.deleteUser(item._id);
-                  }}>
-                  <Icon name="delete" color="#ffffff" />
-                </TouchableOpacity>
-              </View>
-            )}
+            renderItem={({item}) => {
+              if (item.email !== this.email) {
+                return (
+                  <View style={styles.row}>
+                    <View style={styles.touchable}>
+                      <Text style={styles.white}>{item.displayName}</Text>
+                    </View>
+                    <TouchableOpacity
+                      style={styles.touchableRed}
+                      onPress={() => {
+                        this.deleteUser(item._id);
+                      }}>
+                      <Icon name="delete" color="#ffffff" />
+                    </TouchableOpacity>
+                  </View>
+                );
+              }
+            }}
           />
         )}
         <TouchableOpacity

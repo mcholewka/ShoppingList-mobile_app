@@ -24,7 +24,6 @@ class Home extends Component {
     const {navigation} = this.props;
     await navigation.addListener('focus', async () => {
       var token = await AsyncStorage.getItem('token');
-      console.log(token);
       fetch('http://192.168.0.105:3000/api/buckets', {
         method: 'GET',
         headers: {
@@ -77,7 +76,6 @@ class Home extends Component {
           style={styles.fab}
           icon="plus"
           onPress={() => {
-            console.log('Pressed');
             const {navigation} = this.props;
             navigation.navigate('AddBasket');
           }}
