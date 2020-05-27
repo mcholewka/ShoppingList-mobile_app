@@ -12,7 +12,7 @@ import ProductListSettings from './src/components/ProductListOption/ProductListS
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-
+import config from './src/config/config.json';
 import {AuthContext} from './context';
 import {Icon} from 'react-native-elements';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -148,7 +148,7 @@ export default () => {
     return {
       signIn: async data => {
         setIsLoading(false);
-        fetch('http://192.168.0.105:3000/api/users/login', {
+        fetch(config.backendUrl + 'users/login', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -172,7 +172,7 @@ export default () => {
       },
       signUp: async data => {
         setIsLoading(false);
-        fetch('http://192.168.0.105:3000/api/users/register', {
+        fetch(config.backendUrl + 'users/register', {
           method: 'POST',
           headers: {
             Accept: 'application/json',

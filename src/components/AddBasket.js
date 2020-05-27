@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, AsyncStorage} from 'react-native';
 import {TextInput} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {Button} from 'react-native-paper';
+import config from '../config/config.json';
 
 class AddBasket extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class AddBasket extends Component {
 
   addNewList = async () => {
     var token = await AsyncStorage.getItem('token');
-    fetch('http://192.168.0.105:3000/api/buckets', {
+    fetch(config.backendUrl + 'buckets', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

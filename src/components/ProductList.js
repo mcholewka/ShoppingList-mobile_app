@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {List, Checkbox, FAB} from 'react-native-paper';
 import {Icon} from 'react-native-elements';
+import config from '../config/config.json';
 
 export default class ProductList extends Component {
   id = {basketId: this.props.route.params.user};
@@ -68,8 +69,7 @@ export default class ProductList extends Component {
   getData = async () => {
     const {basketId} = this.id;
     var token = await AsyncStorage.getItem('token');
-    const url =
-      'http://192.168.0.105:3000/api/buckets/' + basketId + '/products';
+    const url = config.backendUrl + 'buckets/' + basketId + '/products';
     fetch(url, {
       method: 'GET',
       headers: {
@@ -111,10 +111,7 @@ export default class ProductList extends Component {
     const {productId} = this.productId;
     var token = await AsyncStorage.getItem('token');
     const url =
-      'http://192.168.0.105:3000/api/buckets/' +
-      basketId +
-      '/products/' +
-      this.productId;
+      config.backendUrl + 'buckets/' + basketId + '/products/' + this.productId;
     console.log(url);
     fetch(url, {
       method: 'PATCH',
@@ -158,7 +155,7 @@ export default class ProductList extends Component {
   deleteBasket = async () => {
     const {basketId} = this.id;
     var token = await AsyncStorage.getItem('token');
-    var url = 'http://192.168.0.105:3000/api/buckets/' + basketId;
+    var url = config.backendUrl + 'buckets/' + basketId;
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -180,10 +177,7 @@ export default class ProductList extends Component {
     const {productId} = this.productId;
     var token = await AsyncStorage.getItem('token');
     const url =
-      'http://192.168.0.105:3000/api/buckets/' +
-      basketId +
-      '/products/' +
-      this.productId;
+      config.backendUrl + 'buckets/' + basketId + '/products/' + this.productId;
     console.log(url);
     fetch(url, {
       method: 'DELETE',

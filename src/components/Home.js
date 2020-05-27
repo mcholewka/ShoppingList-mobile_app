@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {Divider} from 'react-native-paper';
 import {FAB} from 'react-native-paper';
+import config from '../config/config.json';
 
 class Home extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class Home extends Component {
     const {navigation} = this.props;
     await navigation.addListener('focus', async () => {
       var token = await AsyncStorage.getItem('token');
-      fetch('http://192.168.0.105:3000/api/buckets', {
+      fetch(config.backendUrl + 'buckets', {
         method: 'GET',
         headers: {
           Accept: 'application/json',

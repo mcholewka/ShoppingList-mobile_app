@@ -24,37 +24,6 @@ export const Register = ({navigation}) => {
         <Icon name="shopping-cart" color="#ffffff" size={50} />
         <Text style={styles.logo}> Shopping list </Text>
       </View>
-      {/* <TextInput
-        style={styles.input}
-        placeholder="Email"
-        onChangeText={setEmail}
-        value={email}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Name"
-        onChangeText={setDisplayName}
-        value={displayName}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry
-        onChangeText={setPassword}
-        value={password}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm password"
-        secureTextEntry
-        onChangeText={setConfirmPassword}
-        value={confirmPassword}
-      />
-      <TouchableOpacity
-        style={styles.userBtn}
-        onPress={() => signUp({email, displayName, password, confirmPassword})}>
-        <Text style={styles.text}>Register</Text>
-      </TouchableOpacity> */}
       <View style={styles.inputContainer}>
         <Icon style={styles.inputLogo} name="person" color="#111111" />
         <TextInput

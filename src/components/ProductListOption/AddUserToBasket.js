@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import {Button} from 'react-native-paper';
+import config from '../../config/config.json';
 
 class AddProduct extends Component {
   basketId = {basketId: this.props.route.params.basketId};
@@ -22,7 +23,7 @@ class AddProduct extends Component {
   addNewUser = async () => {
     const {basketId} = this.basketId;
     var token = await AsyncStorage.getItem('token');
-    var url = 'http://192.168.0.105:3000/api/users/basket/' + basketId;
+    var url = config.backendUrl + 'users/basket/' + basketId;
     fetch(url, {
       method: 'POST',
       headers: {
